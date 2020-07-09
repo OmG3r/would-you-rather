@@ -9,6 +9,7 @@
         padding: 20px;
         margin: 16px auto 0 auto;
         border-radius: 4px;
+        margin-bottom: 24px;
     }
 
     .title.is-5 {

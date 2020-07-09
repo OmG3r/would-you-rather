@@ -32,6 +32,10 @@
             resolve(true)
         });
     })
+    let questions = {}
+    let unsubscribe =  db.collection("app").doc("questions").onSnapshot(function(doc) {
+        questions = doc.data()
+    });
     
     
     
@@ -61,8 +65,11 @@
     <div>
         <Route path="/login"><Login /> </Route>
         <Route path="/second"><Second /></Route>
-        <Route path="/home"><Home {packages} {packagesResolution} /></Route>
-        <Route path="/home/:id" let:params > <AddQuestions {params} {packages} {packagesResolution}  /> </Route>
+        <Route path="/home"><Home {questions} {packages} {packagesResolution} /></Route>
+        <Route path="/home/:id" let:params >
+            <AddQuestions {params}
+            {packages} {packagesResolution} {questions}  /> 
+        </Route>
         <Route path="*">wild</Route>
     </div>
 </Router>

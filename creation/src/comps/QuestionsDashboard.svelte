@@ -6,20 +6,20 @@
 
 
 <script>
+    import Question from './Question.svelte'
+
     import {onDestroy} from 'svelte'
     import {db} from '../store.js'
     export let searchvalue = ""
     export let params = {}
-    let questions = {}
+    export let enableEditing = false;
+    export let questions = {}
 
-    let unsubscribe =  db.collection("app").doc("questions").onSnapshot(function(doc) {
-        questions = doc.data()
-    });
+    
 
-    onDestroy(async () => {
-        unsubscribe()
-    })
+    
 
+   
 
 </script>
 
@@ -51,37 +51,15 @@
         
             {#if questions[params.id]}
                 {#each Object.entries(questions[params.id]) as [id, item]}
-                    {#if [item.id, item.label, item.title]
-                    .some((mypackages) => String(mypackages).includes(searchvalue)) }
-                        <tr>
-                            <td>{id}</td>
-                            <td>
-                                <div class="field">
-                                    <div class="control">
-                                        <textarea row="3" class="textarea is-info" placeholder="Info textarea">{item.one.text}</textarea>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{item.one.click}</td>
-                            <td>
-                                <div class="field">
-                                    <div class="control">
-                                        <textarea row="3" class="textarea is-info" placeholder="Info textarea">{item.two.text}</textarea>
-                                    </div>
-                                </div>
-                            
-                            </td>
-                            <td>{item.two.click}</td>
-                            <td>
+                    {#if [id, item.one.text, item.two.text]
+                    .some((str) => String(str).includes(searchvalue)) }
+                        <Question {enableEditing} {id} {item} {params} />
 
-                                    <button class="button is-info">Update</button>
-                            
-                            </td>
-                            <td><button class="button is-danger">Delete</button></td>
-                        </tr>
+                        
                     {/if}
                 {/each}
             {/if}
+            <Question create={true} {enableEditing} questions={questions[params.id]} {params} />
        
     </tbody>
 </table>

@@ -76,7 +76,7 @@
     import {user, db} from '../store'
     import {onDestroy} from 'svelte'
     import { navigate, Link, link } from "svelte-routing";
-
+    export let questions = {}
     let unsubscribe = user.subscribe((value) => {
         if (value != undefined) {
             if (value == 0) {
@@ -160,14 +160,18 @@
                                 <td>{id}</td>
                                 <td>{item.label}</td>
                                 <td>{item.title}</td>
-                                <td></td>
+                                <td>
+                                    {#if questions[id]}
+                                        {Object.keys(questions[id]).length} 
+                                    {/if}
+                                 </td>
                                 <td>
                                     <a href={"home/" + id} use:link>
                                         <button class="button is-info">Modify</button>
                                     </a>
                                 
                                 </td>
-                                <td><button on:click={() => {deletePackage(id)}} class="button is-danger">Danger</button></td>
+                                <td><button on:click={() => {deletePackage(id)}} class="button is-danger">Delete</button></td>
                             </tr>
                         {/if}
                     {/each}

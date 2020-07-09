@@ -11,7 +11,8 @@
         cursor: pointer;
 
         display: flex;
-        flex-direction: column
+        flex-direction: column;
+        border-right: 1px solid #DBDBDB;
     }
 
     ul.menu-list {
@@ -38,20 +39,47 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        min-height: 100vh;
+        height: 100vh;
+        overflow-y: scroll;
 
     }
     .u-search {
         width: 100%;
         background-color: white;
-        height: 50px;;
+        min-height: 50px;;
 
         display: flex;
         justify-content: center;
         align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 30;
+
+        
+
     }
 
+    
     .u-search input.input {
         max-width: 260px;
+         position: absolute;
+        margin: 0 auto;
+    }
+
+    .u-button {
+        margin: 0 8px 0 auto;
+        padding: 0.5em 1em;
+        border: 1px solid #6362EC;
+        color: #6362EC;
+        cursor: pointer;
+        border-radius: 4px;
+
+    }
+
+    .u-button.active {
+        color: white;
+        background-color: #6362EC;
     }
 
 
@@ -67,8 +95,9 @@
     export let packages = {};
     import {onMount} from 'svelte'
     export let packagesResolution = {}
+    export let questions = {}
     
-    
+    let enableEditing = false
     onMount(async () => {
 
         packagesResolution.then(() => {
@@ -102,11 +131,16 @@
         </aside>
         <div class="workspace">
             <div class="u-search">
+
                 <input placeholder="keyword" bind:value={searchvalue} class="input" type="text">
+                <div on:click={() =>enableEditing = !enableEditing}
+                class:active={enableEditing}
+                class="u-button">Edit</div>
+                
             </div>
 
             <ModifyPackage {params} info={packages[params.id]} />
-            <QuestionsDashboard {searchvalue} {params} />
+            <QuestionsDashboard {questions} {enableEditing} {searchvalue} {params} />
             <!--
             <table class="table">
                 <thead>
