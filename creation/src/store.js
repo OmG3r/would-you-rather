@@ -12,6 +12,24 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
+export const db = firebase.firestore();
+export const storage = firebase.storage()
 
 export const user = writable(undefined)
+
+export const itemBaseStorageLink = "https://firebasestorage.googleapis.com/v0/b/would-your-rather.appspot.com/o/"
+
+export const generateImageUrl = (name, token) => {
+    let itemPathBase = "packages/" + name
+    let encode = encodeURIComponent(itemPathBase)
+    if (token) {
+        return itemBaseStorageLink + encode + "?alt=media&token=" + token
+    } else {
+        return itemBaseStorageLink + encode + "?alt=media&token="
+    }
+
+}
+
+export const shrinkImageUrl = (link) => {
+
+}
