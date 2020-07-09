@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "would-your-rather"
+  },
+  "targets": {
+    "would-your-rather": {
+      "hosting": {
+        "backoffice": [
+          "admin-would-you-rather"
+        ],
+        "app": [
+          "would-your-rather"
+        ]
+      }
+    }
   }
 }

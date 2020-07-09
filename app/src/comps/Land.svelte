@@ -1,6 +1,6 @@
 <style>
     .u-view {
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         
@@ -88,7 +88,11 @@
 
 
 <script>
-    import {activePackage, questions} from '../store.js'
+    import {activePackage, generateImageUrl} from '../store.js'
+    export let questions
+    export let packages
+    console.log(questions)
+    console.log(packages)
 
     let categories = [
         {
@@ -133,22 +137,22 @@
             <div class="u-page-title">Questions</div>
         </header>
         <div class="u-categories">
-            {#each categories as category}
-                <div on:click={() => {setActivePackage(category.id)}} class="u-categorey"
-                style={"background-color: " + category.backgroundColor + ";"}>
+            {#each Object.entries(packages) as [id, item]}
+                <div on:click={() => {setActivePackage(id)}} class="u-categorey"
+                style={"background-color: " + item.backgroundColor + ";"}>
                     <div class="u-cat-image-container">
-                        <img class="u-cat-image" src={"/imgs/" + category.img} alt={category.img}>
+                        <img class="u-cat-image" src={generateImageUrl(id, item.img) } alt={item.img}>
                     </div>
                     
-                    <div class="u-cat-text" style={"color: " + category.textColor + ";"}>
+                    <div class="u-cat-text" style={"color: " + item.textColor + ";"}>
                         <div class="u-cat-title">
-                            {category.title}
+                            {item.title}
                         </div>
                         <div class="u-cat-subtitle">
-                            {category.subtitle}
+                            Package
                         </div>
                         <div class="u-cat-questions">
-                            {Object.keys(questions[category.id]).length} Questions
+                            {Object.keys(questions[id]).length} Questions
                         </div>
                     </div>
 

@@ -75,6 +75,6 @@
             <AddQuestions {params}
             {packages} {packagesResolution} {questions}  /> 
         </Route>
-        <Route path="*">wild</Route>
+        <Route path="*"><Login /></Route>
     </div>
 </Router>

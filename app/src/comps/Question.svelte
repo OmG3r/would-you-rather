@@ -189,7 +189,7 @@
 
     let sliderNext = () => {
         if (mySwiper.activeIndex == mySwiper.slides.length - 1) {
-            goHome()
+            goHome('finished')
             return
         }
         
@@ -199,11 +199,25 @@
         
     }
 
-    let goHome = () => {
+    let goHome = (endtype) => {
         mySwiper.slideTo(0, 500)
         setTimeout(() => {
+            if (endtype == "finished") {
+                analytics.logEvent('package_finished', {id: value})
+            } else {
+                analytics.logEvent('package_terminated', {id: value})
+            }
+            
             $activePackage = 0
         }, 500)
+    }
+
+    let oneCalc = Math.round(((option.one.clicks/(option.one.clicks + option.two.clicks))) * 100)
+    let twoCalc = 100 - oneCalc
+    if (isNaN(oneCalc)) {
+        console.log(oneCalc)
+        oneCalc = 100
+        twoCalc = 0
     }
 </script>
 
@@ -245,14 +259,18 @@
             {:else}
                 <div class="absolute-center u-result">
                     <div class="u-choice u-one"
-                    style={"width: "+ Math.round(((option.one.clicks/(option.one.clicks + option.two.clicks))) * 100) + "%;" }>
-
-                        {Math.round(((option.one.clicks/(option.one.clicks + option.two.clicks))) * 100) } %
+                    style={"width: "+ oneCalc + "%;" }>
+                        {#if oneCalc > 12}
+                            {oneCalc} %
+                        {/if}
                     </div>
 
                     <div class="u-choice u-two"
-                    style={"width: "+ ( 100 -Math.round(((option.one.clicks/(option.one.clicks + option.two.clicks))) * 100) ) + "%;" }>
-                        {100 - Math.round(((option.one.clicks/(option.one.clicks + option.two.clicks))) * 100 ) } %
+                    style={"width: "+ twoCalc + "%;" }>
+                        {#if twoCalc > 12}
+                            {twoCalc}
+                        {/if}
+                        
                     </div>
 
                 </div>
