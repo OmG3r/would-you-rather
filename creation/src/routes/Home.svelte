@@ -130,10 +130,8 @@
             <tbody>
                 <tr>
                     {#each data as item}
-                        {#if [item.id, item.label, item.title].some((mydata) => {
-                            console.log(mydata)
-                            return String(mydata).includes(searchvalue)
-                            }) }
+                        {#if [item.id, item.label, item.title]
+                        .some((mydata) => String(mydata).includes(searchvalue)) }
                             <td>{item.id}</td>
                             <td>{item.label}</td>
                             <td>{item.title}</td>
