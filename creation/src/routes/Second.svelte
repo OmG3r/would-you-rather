@@ -65,7 +65,7 @@
         <ul class="menu-list">
             <li><a href="home"  use:link>Home</a></li>
             <li><a href="second" class="is-active" use:link>Second</a></li>
-            <li>Logout</li>
+            <li on:click={() => { firebase.auth().signOut()}} style="color: black;">Logout</li>
         </ul>
         
     </aside>

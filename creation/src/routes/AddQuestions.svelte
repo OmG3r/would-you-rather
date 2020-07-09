@@ -125,7 +125,7 @@
             <ul class="menu-list">
                 <li><a href="/home" class="is-active" use:link>Home</a></li>
                 <li><a href="/second" use:link>Second</a></li>
-                <li>Logout</li>
+                <li on:click={() => { firebase.auth().signOut()}} style="color: black;">Logout</li>
             </ul>
             
         </aside>
@@ -141,51 +141,6 @@
 
             <ModifyPackage {params} info={packages[params.id]} />
             <QuestionsDashboard {questions} {enableEditing} {searchvalue} {params} />
-            <!--
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Label</th>
-                        <th>Title</th>
-                        <th><abbr title="Number of Questions">Nbr Qs</abbr></th>
-                        <th>Modify</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th>Label</th>
-                        <th>Title</th>
-                        <th><abbr title="Number of Questions">Nbr Qs</abbr></th>
-                        <th>Modify</th>
-                        <th>Delete</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr>
-                        {#each packages as item}
-                            {#if [item.id, item.label, item.title]
-                            .some((mypackages) => String(mypackages).includes(searchvalue)) }
-                                <td>{item.id}</td>
-                                <td>{item.label}</td>
-                                <td>{item.title}</td>
-                                <td></td>
-                                <td>
-                                    <a href={"home/" + item.id} use:link>
-                                        <button class="button is-info">Modify</button>
-                                    </a>
-                                
-                                </td>
-                                <td><button class="button is-danger">Danger</button></td>
-                            {/if}
-                        {/each}
-                    </tr>
-                </tbody>
-            </table>
-
-            -->
         </div>
     
 

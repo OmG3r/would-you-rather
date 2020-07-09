@@ -27,20 +27,25 @@
     }
     let packages = {}
     let packagesResolution = new Promise(async (resolve, reject) => {
-        let resp = await db.collection("app").doc("packages").onSnapshot(function(doc) {
+        db.collection("app").doc("packages").onSnapshot(function(doc) {
             packages = doc.data()
             resolve(true)
         });
     })
     let questions = {}
-    let unsubscribe =  db.collection("app").doc("questions").onSnapshot(function(doc) {
-        questions = doc.data()
-    });
+    let questionsResolution = new Promise (async (resolve, reject) => {
+        db.collection("app").doc("questions").onSnapshot(function(doc) {
+            questions = doc.data()
+            resolve(true)
+        });
+    })
     
     
     
     
-    setTimeout(() => {
+    
+    setTimeout(async () => {
+        await Promise.all([questionsResolution, packagesResolution])
         document.getElementById('loader').parentNode.removeChild(document.getElementById('loader'))
     },1000)
     firebase.auth().onAuthStateChanged(function(valueUser) {

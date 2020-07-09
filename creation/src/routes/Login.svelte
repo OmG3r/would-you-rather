@@ -20,6 +20,10 @@
     .title.is-4 {
         margin-bottom: 8px;
     }
+    .title.is-3 {
+        text-align: center
+    }
+
 </style>
 
 
@@ -62,6 +66,7 @@
 
 
     <form on:submit|preventDefault={doSubmit}>
+        <h3 class="title is-3">Admin - Would You Rather</h3>
         {#if errorMessage}
             <div class="notification is-danger">
                 {errorMessage}
