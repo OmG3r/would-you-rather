@@ -17,8 +17,9 @@
         align-items: center;
         justify-content: center;
         
-        padding: 8px;
+        
         position: relative;
+        margin-bottom: 8px;
     }
     .u-game-title {
         font-size: 30px;
@@ -43,7 +44,7 @@
         width: 100%;
         background-color: white;
         border-radius: 18px;
-        min-height: calc(100vh - 160px);
+        min-height: calc(100vh - 200px);
 
         padding: 10px;
 
@@ -57,7 +58,7 @@
     }
 
     .u-option {
-        padding: 16px 24px;
+        padding: 0 16px;
         width: 100%;
 
         border-radius: 6px;
@@ -97,6 +98,7 @@
 
     .u-option-text {
         margin: auto;
+        font-family: 'Changa', sans-serif;
     }
 
     .u-ticked {
@@ -110,19 +112,20 @@
         margin-right: auto;
         left: 0;
         right: 0;
-        top: calc(50% - 20px);
+        bottom: -28px;
         z-index: 10;
     }
 
     .u-or {
         
-
+        box-sizing: content-box;
         background: white;
         color: black;
         
 
-        height: 40px;
-        width: 40px;
+        height: 20px;
+        width: 20px;
+        padding: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -168,7 +171,7 @@
 
 
 <script>
-    import {activePackage} from '../store.js'
+    import {activePackage, analytics} from '../store.js'
     export let mySwiper = {}
     export let option = {
         one: {
@@ -201,13 +204,14 @@
 
     let goHome = (endtype) => {
         mySwiper.slideTo(0, 500)
+        document.body.style.overflow = "auto"
         setTimeout(() => {
             if (endtype == "finished") {
-                analytics.logEvent('package_finished', {id: value})
+                analytics.logEvent('package_finished', {id: $activePackage})
             } else {
-                analytics.logEvent('package_terminated', {id: value})
+                analytics.logEvent('package_terminated', {id: $activePackage})
             }
-            
+            mySwiper.update()
             $activePackage = 0
         }, 500)
     }
@@ -240,10 +244,31 @@
                 {#if selectedOption == "one"}
                     <img class="u-ticked" src="/imgs/misc/tick-01.png" alt="ticked">
                 {/if}
+                {#if selectedOption == "none"}
+                    <div class="u-or absolute-center">
+                        or
+                    </div>
+                {:else}
+                    <div class="absolute-center u-result">
+                        <div class="u-choice u-one"
+                        style={"width: "+ oneCalc + "%;" }>
+                            {#if oneCalc > 12}
+                                {oneCalc} %
+                            {/if}
+                        </div>
+
+                        <div class="u-choice u-two"
+                        style={"width: "+ twoCalc + "%;" }>
+                            {#if twoCalc > 12}
+                                {twoCalc}
+                            {/if}
+                            
+                        </div>
+
+                    </div>
+                {/if}
             </div>
-            <div class="u-spacer">
-            
-            </div>
+                <div class="u-spacer"></div>
             <div on:click={() => {doChoose('two')}} class="u-option u-two">
                 <div class="u-option-text">
                     {option.two.text}
@@ -252,29 +277,7 @@
                     <img class="u-ticked" src="/imgs/misc/tick-01.png" alt="ticked">
                 {/if}
             </div>
-            {#if selectedOption == "none"}
-                <div class="u-or absolute-center">
-                    or
-                </div>
-            {:else}
-                <div class="absolute-center u-result">
-                    <div class="u-choice u-one"
-                    style={"width: "+ oneCalc + "%;" }>
-                        {#if oneCalc > 12}
-                            {oneCalc} %
-                        {/if}
-                    </div>
-
-                    <div class="u-choice u-two"
-                    style={"width: "+ twoCalc + "%;" }>
-                        {#if twoCalc > 12}
-                            {twoCalc}
-                        {/if}
-                        
-                    </div>
-
-                </div>
-            {/if}
+            
 
             
         

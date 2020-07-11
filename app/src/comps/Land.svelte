@@ -152,7 +152,11 @@
                             Package
                         </div>
                         <div class="u-cat-questions">
-                            {Object.keys(questions[id]).length} Questions
+                            {#if questions[id]}
+                                {Object.keys(questions[id]).length} Questions
+                            {:else}
+                                0 Questions
+                            {/if}
                         </div>
                     </div>
 

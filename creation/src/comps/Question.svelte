@@ -72,10 +72,11 @@
         if (questions && Object.keys(questions).length > 0) {
             console.log("inse")
             let allquestions =  Object.keys(questions).map((item) => Number(item))
-            allquestions.sort()
+            allquestions.sort((a, b) => a - b)
+            console.log(allquestions)
              biggest = allquestions[allquestions.length - 1] + 1
         }
-        
+        console.log(biggest)
         let path = params.id + "." + biggest
         await db.collection('app').doc('questions').update({
             [path]: {

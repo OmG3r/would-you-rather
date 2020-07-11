@@ -7,6 +7,11 @@
         margin: auto;
     }
 
+    .swiper-slide {
+        max-height: 100vh;
+        overflow-y: auto;
+    }
+
 </style>
 
 
@@ -18,7 +23,12 @@
     let mySwiper = {}
     onMount(async () => {
         mySwiper = new Swiper('.swiper-container', {
-            speed: 400
+            speed: 400,
+            noSwiping: true,
+            draggable: false,
+            autoplay: false,
+            keyboard: false,
+            allowTouchMove: false
         });
     })
     
@@ -47,11 +57,18 @@
 
     activePackage.subscribe((value) => {
         console.log(value)
+        
         setTimeout(() => {
-            analytics.logEvent('package_started', {id: value})
-            mySwiper.update()
-            mySwiper.slideNext(500)
-        }, 50)
+            if (value != 0) {
+                
+                document.body.style.overflow = "hidden"
+                analytics.logEvent('package_started', {id: value})
+                mySwiper.update()
+                mySwiper.slideNext(500)
+                
+            }
+            
+        }, 200)
     })
 </script>
 
